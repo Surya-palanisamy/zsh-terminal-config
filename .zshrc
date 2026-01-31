@@ -1,9 +1,20 @@
+
+typeset -U PATH path
+
 # ===============================
 # BASIC ENVIRONMENT
 # ===============================
 export ZSH_DISABLE_COMPFIX=true
-export PATH="$HOME/bin:/usr/local/bin:$PATH"
 
+path=(
+  $HOME/.local/bin
+  $HOME/.bun/bin
+  $HOME/bin
+  /usr/local/bin
+  $path
+)
+
+export PATH
 # ===============================
 # HISTORY
 # ===============================
@@ -14,6 +25,8 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt INC_APPEND_HISTORY
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 # ===============================
 # ALIASES
@@ -22,6 +35,8 @@ alias ll='ls -lah'
 alias gs='git status'
 alias update='sudo dnf upgrade --refresh'
 alias cls='clear'
+alias inv='nvim $(fzf -m --preview=@@HL36@@)'
+alias bios='systemctl reboot --firmware-setup'
 
 # ===============================
 # COMPLETION
@@ -67,7 +82,6 @@ $ '
 # ===============================
 bindkey '^[[A' history-beginning-search-backward
 bindkey '^[[B' history-beginning-search-forward
-bindkey '^[[C' autosuggest-accept
 
 # ===============================
 # QUALITY OF LIFE
